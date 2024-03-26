@@ -1,0 +1,23 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityUser
+
+<h2>Edit User</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required>
+    </div>
+
+    <div class="form-group">
+        <label for="LockoutEnabled">Lockout Enabled</label>
+        <input type="checkbox" id="LockoutEnabled" name="LockoutEnabled" @(Model.LockoutEnabled ? "checked" : "")>
+    </div>
+
+    <div class="form-group">
+        <label for="LockoutEnd">Lockout End Date</label>
+        <input type="datetime-local" class="form-control" id="LockoutEnd" name="LockoutEnd" value="@Model.LockoutEnd?.ToString("yyyy-MM-ddTHH:mm")">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="ManageUsers" class="btn btn-secondary">Cancel</a>
+</form>

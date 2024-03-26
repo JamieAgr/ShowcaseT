@@ -1,0 +1,103 @@
+﻿@{
+    // Retrieve the current user's username
+    string username = User.Identity.Name;
+
+    // Perform other actions based on the user's identity
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Lobby</title>
+</head>
+<body>
+    <h1>Game Lobby</h1>
+
+    <div id="join-lobby-container">
+        <h2>Join Game</h2>
+        <input type="text" id="join-lobby-code" placeholder="Enter lobby code">
+        <button id="join-button">Join</button>
+    </div>
+
+    <div id="create-lobby-container">
+        <h2>Create Game</h2>
+        <button id="create-button">Create New Lobby</button>
+    </div>
+
+    <div id="local-lobby-container">
+        <h2>Create local Game</h2>
+        <button id="local-button">Create local Lobby</button>
+    </div>
+
+    <input type="hidden" id="User" value="@username"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const joinButton = document.getElementById('join-button');
+            const createButton = document.getElementById('create-button');
+            const localButton = document.getElementById('local-button');
+            const joinLobbyCodeInput = document.getElementById('join-lobby-code');
+            const user = document.getElementById('User').value;
+
+            var connection = new signalR.HubConnectionBuilder().withUrl("/hub").build();
+
+            connection.start().catch(function (err) {
+                return console.error(err.toString());
+            });
+
+            joinButton.addEventListener('click', function () {
+                const lobbyCode = joinLobbyCodeInput.value.trim();
+                if (lobbyCode !== '') {
+                    connection.invoke("JoinGame", lobbyCode, user)
+                        .then(function () {
+                            console.log("Joined lobby:", lobbyCode);
+                        })
+                        .catch(function (err) {
+                            console.error(err.toString());
+                        });
+                } else {
+                    alert('Please enter a valid lobby code.');
+                }
+            });
+
+            createButton.addEventListener('click', function () {
+                connection.invoke("CreateGame", user)
+                    .then(function (lobbyCode) {
+                        console.log("Created lobby:", lobbyCode);
+                    })
+                    .catch(function (err) {
+                        console.error(err.toString());
+                    });
+            });
+
+            localButton.addEventListener('click', function () {
+                console.log("local");
+                connection.invoke("CreateLocal", user)
+                    .then(function (lobbyCode) {
+                        console.log("Created lobby:", lobbyCode);
+                    })
+                    .catch(function (err) {
+                        console.error(err.toString());
+                    });
+            });
+
+            connection.on("JoinedGame", function (lobbyCode) {
+                console.log("Joined lobby:", lobbyCode);
+                window.location.href = "/Home/GameT?lobbyCode=" + lobbyCode; 
+            });
+
+            connection.on("CreatedGame", function (lobbyCode) {
+                console.log("Created lobby:", lobbyCode);
+                window.location.href = "/Home/GameT?lobbyCode=" + lobbyCode;
+            });
+
+            connection.on("LobbyNotFound", function () {
+                alert("Lobby not found. Please enter a valid lobby code.");
+            });
+        });
+    </script>
+</body>
+</html>

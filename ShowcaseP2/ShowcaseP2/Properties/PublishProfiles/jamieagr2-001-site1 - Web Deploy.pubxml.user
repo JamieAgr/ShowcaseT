@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword />
+    <History>False|2024-03-26T07:33:08.6951364Z;True|2024-03-26T08:32:27.5945095+01:00;True|2024-03-25T17:36:26.3627468+01:00;True|2024-03-25T17:33:24.6268211+01:00;True|2024-03-25T17:32:50.8121111+01:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="App:GoogleClientId">
+      <Value>523366779237-o87uk4m0ud4fvv4njg15b78bqi6sh0ht.apps.googleusercontent.com</Value>
+    </DestinationConnectionStrings>
+    <DestinationConnectionStrings Include="App:GoogleClientSecret">
+      <Value>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</Value>
+    </DestinationConnectionStrings>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=Identity.sqlite</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="ShowcaseP2.Data.ApplicationDbContext">
+      <Value>523366779237-o87uk4m0ud4fvv4njg15b78bqi6sh0ht.apps.googleusercontent.com</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>
